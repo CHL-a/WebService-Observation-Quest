@@ -1,33 +1,25 @@
 ---@version 5.1
 
-local oldRequire = require
+-- modified require
+local overridenRequire = require
 
----returns and loads code, this function is modified, I would like
----some documentation on why some leaf files (any lua file that
----does not require another lua file, aka, leaf)
----@param path string
-function require(path)
-	local pathA = ('%s.lua'):format(
-		path:gsub('%.', '/')
-	)
-	local pathB = 'src_V1/Objects/' .. pathA
+---overriden Require, can be better
+---@param mod string
+require = function (mod)
+    local result
 
-	local result = loadfile(pathA)
-		or loadfile(pathB)
-		
-	if result then
-		result = result()
-	else
-		result = oldRequire(path)
-	end
+    local fullName = io.popen(
+        ('find -name \'%s.lua\''):format(mod))
+        :read'*a'
+    if not fullName or #fullName == 0 then
+        result = overridenRequire(mod)
+    else
+        result = loadfile(fullName:sub(1, -2))()
+    end
 
-	return result
+    return result
 end
 
--- load static
-package.loaded.Static = dofile'src_V1/Static.lua'
-
--- post: run main
-require('src_V1.main')
+require('main')
 
 return true;
