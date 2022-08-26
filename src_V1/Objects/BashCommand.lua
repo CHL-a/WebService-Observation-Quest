@@ -6,7 +6,7 @@
 ---@class BashCommand.object
 ---@field command string @represents the prefix of a command
 ---@field run fun(str: string): string @runs command directly
----@field call fun(flags: {string: string}?, ...: any): string 
+---@field call fun(flags: {[string]: string}?, ...: any): string 
 --- calls command with converted arguments, since all commands are --- different, expect overloading this function in particular
 
 ---@class BashCommand.argument

@@ -2,16 +2,16 @@
 
 ---@class cURL @runs bash command cURL
 ---@field bashCommand BashCommand.object
----@field request fun(url: string, httpRequestType: string, data: string?): cURL.ServerResponse
----@field get fun(url: string, data?): cURL.ServerResponse
----@field post fun(url: string, data?): cURL.ServerResponse
----@field delete fun(url: string, data?): cURL.ServerResponse
+---@field request fun(url: string, httpRequestType: string, data: string?, headers: {[string]: any}): cURL.ServerResponse
+---@field get fun(url: string, data: string?, headers: {[string]: any}?): cURL.ServerResponse
+---@field post fun(url: string, data: string?, headers: {[string]: any}): cURL.ServerResponse
+---@field delete fun(url: string, data: string?, headers: {[string]: any}): cURL.ServerResponse
 ---@field bind fun(url: string): cURL.object
 ---@field serverResponse cURL.ServerResponse.constructor
 ---@field clientRequest cURL.ClientRequest.constructor
 
 ---@class cURL.object @can run commands
----@field get fun(suffix: string): cURL.ServerResponse
+---@field get fun(suffix: string, data: string?, headers: {[string]: any}?): cURL.ServerResponse
 ---@field delete fun(suffix: string): cURL.ServerResponse
 ---@field post fun(suffix: string, data: string?): cURL.ServerResponse
 
@@ -57,20 +57,32 @@ local tempStringParser = StringParser.new''
 
 ---@type flagStruct
 local tempA = {
-	requestType = {
-		realFlag = 'X'
-	};
+	requestType = {realFlag = 'X'};
+	showHeader = {realFlag = 'i'};
+	noProgress = {realFlag = 's'};
 	data = {
 		realFlag = 'd';
 		valueEvaluator = function (v)
 			return ('\'%s\''):format(v)
 		end
 	};
-	showHeader = {
-		realFlag = 'i';
-	};
-	noProgress = {
-		realFlag = 's'
+	
+	headers = {
+		realFlag = 'H';
+		valueEvaluator = function(v)
+			local result = ''
+
+			for a, b in next, v do
+				if #result ~= 0 then
+					result = result .. ' -H '
+				end
+
+				result = result .. 
+					('"%s: %s"'):format(a, b)
+			end
+
+			return result
+		end
 	}
 }
 
@@ -83,8 +95,9 @@ cURL.bashCommand = BashCommand.new{
 ---@param url string
 ---@param httpType string
 ---@param data string?
+---@param headers {[string]: string}
 ---@return cURL.ServerResponse
-function cURL.request(url, httpType, data)
+function cURL.request(url, httpType, data, headers)
 	local flags = {
 		requestType = httpType;
 		showHeader = '';
@@ -95,6 +108,10 @@ function cURL.request(url, httpType, data)
 		flags.data = data
 	end
 
+	if headers then
+		flags.headers = headers
+	end
+
 	return cURL.serverResponse.fromString(
 		cURL.bashCommand.call(flags, url)
 	)
@@ -103,9 +120,11 @@ end
 local function factRequest(s)
 	---implement a request type (check index)
 	---@param u string url
+	---@param data string data
+	---@param headers {[string]: string}
 	---@return cURL.ServerResponse
-	return function (u, data)
-		return cURL.request(u, s, data)
+	return function (u, data, headers)
+		return cURL.request(u, s, data, headers)
 	end
 end
 
@@ -122,8 +141,8 @@ function cURL.bind(url)
 	local object = {}
 
 	local function factRequest(i)
-		return function (suffix, data)
-			return cURL[i](url..suffix, data)
+		return function (suffix, data, headers)
+			return cURL[i](url..suffix, data, headers)
 		end
 	end
 
