@@ -24,6 +24,7 @@
 
 ---@class Static.table
 ---@field access fun(t: table, ...: any): any
+---@field empty fun(t: table)
 ---@field flip fun(t: table): table
 ---@field getN fun(t: table): integer
 ---@field getType fun(t: table): "array" | "dictionary" | "empty" |  "mixed" | "spotty array"
@@ -258,6 +259,14 @@ function Static.table.access(t, ...)
 	end
 
 	return result
+end
+
+---Empties a table
+---@param t table
+function Static.table.empty(t)
+	for i in next, t do
+		t[i] = nil
+	end
 end
 
 --[[

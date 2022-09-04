@@ -42,6 +42,7 @@
 
 ---@type WebServer
 local WebServer = {}
+local Enum = require('Enum')
 local isLoaded = false
 
 local cURL = require('cURL')
@@ -130,7 +131,7 @@ function WebServer.new(host, port)
 				response.statusCode = 501
 				response.statusMessage = 'not implemented'
 				response.body = 'oops, server did something wrong'
-				response.headers['Content-Type'] = 'text/plain'
+				response.headers['Content-Type'] = Enum.mimeTypes.txt
 				response.success = false
 				response.httpVersion = request.httpVersion
 
@@ -138,6 +139,8 @@ function WebServer.new(host, port)
 				local _ = (responseWebPage or invalidFunc)(client, request, response)
 				
 				client:send(response.toString())
+
+				-- atm, its only a recieve and respond type webservice
 				client:close()
 			end
 		end)()
