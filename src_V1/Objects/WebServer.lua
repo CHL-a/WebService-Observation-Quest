@@ -114,14 +114,14 @@ function WebServer.new(host, port)
 		launched = true
 		coroutine.wrap(function ()
 			while true do
-				print("getting client")
+				--print("getting client")
 				local client = object.server:accept()
 				
-				print("getting request")
+				--print("getting request")
 
 				local request = cURL.clientRequest
 					.fromTCPClient(client)
-				print("got request")
+				--print("got request")
 
 				local responseWebPage = Static.table.access(
 					requestResponses, 
