@@ -48,7 +48,7 @@ local StringParser =
 	require('StringParser')
 
 local BashCommand = 
-	require('src_V1.Objects.BashCommand')
+	require('BashCommand')
 
 ---@module "Static"
 local Static = require('Static')
