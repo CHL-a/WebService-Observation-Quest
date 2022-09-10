@@ -7,8 +7,4 @@
 ---@field delete fun(str: string): Database @deletes entry
 ---@field list fun(term: string): string @returns list of keys in database
 
--- (We need generic improvements btw)
-
----@class Stream<A>:{value:{[number]:A},get:fun(i:integer):A,append:fun(...:A): Stream<A>}
-
 return nil;
