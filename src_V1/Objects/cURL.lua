@@ -295,7 +295,7 @@ function cURL.clientRequest.fromTCPClient(client)
 	until line == '' or closed
 
 	-- body
-	print(closed)
+	print(closed, Static.table.toString(object))
 	while not closed do
 		line, closed = client:receive()
 		
