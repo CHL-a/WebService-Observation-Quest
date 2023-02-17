@@ -259,17 +259,6 @@ end
 ---@param client TcpServer.client
 ---@return cURL.ClientRequest
 function cURL.clientRequest.fromTCPClient(client)
-	print'test'
-	repeat
-		local l,c = client:receive()
-
-		print(l)
-	until c
-	print'END'
-
-
-
-
 	error('is testing')
 
 	---@type cURL.ClientRequest
@@ -283,6 +272,14 @@ function cURL.clientRequest.fromTCPClient(client)
 	local temp = tempStringParser.reset(temp)
 		.popUntil' '
 	object.requestType = assert(temp)
+
+	if temp ~='GET' then
+		print('!', temp)
+
+	end
+
+
+
 	-- web page
 
 	temp = tempStringParser.popUntil' '
