@@ -259,7 +259,7 @@ end
 ---@param client TcpServer.client
 ---@return cURL.ClientRequest
 function cURL.clientRequest.fromTCPClient(client)
-	error('is testing')
+	-- error('is testing')
 
 	---@type cURL.ClientRequest
 	local object = cURL.clientRequest.new()
