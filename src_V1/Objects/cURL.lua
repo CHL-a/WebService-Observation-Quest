@@ -282,7 +282,7 @@ function cURL.clientRequest.fromTCPClient(client)
 
 		until c
 
-
+		print'boo'
 	end
 
 
