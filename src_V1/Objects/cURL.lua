@@ -302,6 +302,10 @@ function cURL.clientRequest.fromTCPClient(client)
 
 	-- body
 	print(closed, Static.table.toString(object))
+
+	if object.headers['Content-Length'] then
+		print('111', client:receive(tonumber(object.headers['Content-Length'])))
+	end
 	--[[
 	while not closed do
 		line, closed = client:receive()
