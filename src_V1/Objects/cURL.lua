@@ -277,7 +277,7 @@ function cURL.clientRequest.fromTCPClient(client)
 		print('!', temp)
 
 		repeat
-			local l,c = client:receive()
+			local l,c = client:receive('*a')
 			print(l)
 
 		until c
