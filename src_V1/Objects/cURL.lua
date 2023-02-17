@@ -276,6 +276,13 @@ function cURL.clientRequest.fromTCPClient(client)
 	if temp ~='GET' then
 		print('!', temp)
 
+		repeat
+			local l,c = client:receive()
+			print(l)
+
+		until c
+
+
 	end
 
 
