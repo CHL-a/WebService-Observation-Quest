@@ -25,6 +25,17 @@ end) -- * returned the same object,
 	res.headers.connection = 'close'
 	res.body = 'the foo page, welcome'
 end)
+-- the bar page
+.onRequest('/bar', 'POST', function (client, req, res)
+	print(Static.table.toString(req))
+
+	res.success = true
+	res.statusCode = 200
+	res.statusMessage = 'OK'
+	res.headers.connection = 'close'
+	res.body = 'the bar page, welcome'
+end)
+
 
 -- client sent http request to an invalid webpage
 --[[
