@@ -273,17 +273,6 @@ function cURL.clientRequest.fromTCPClient(client)
 		.popUntil' '
 	object.requestType = assert(temp)
 
-	if temp ~='GET' then
-		print('!', temp)
-
-		repeat
-			local l,c = client:receive(10)
-			print(l)
-
-		until c
-
-		print'boo'
-	end
 
 
 
