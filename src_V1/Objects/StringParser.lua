@@ -3,7 +3,7 @@
 ---@class StringParser
 ---@field new fun(s: string): StringParser.object
 ---@field temp StringParser.object
----@field parseString fun(str: string, args: {delimStart: string, delimEnd: string})
+---@field parseString fun(str: string, args: {delimStart: string, delimEnd: string}): string?
 
 ---@class StringParser.object
 ---@field i number

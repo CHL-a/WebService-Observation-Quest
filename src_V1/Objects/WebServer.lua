@@ -148,6 +148,8 @@ function WebServer.new(host, port)
 				client:close()
 			end
 		end)()
+
+		return object
 	end
 
 	return object

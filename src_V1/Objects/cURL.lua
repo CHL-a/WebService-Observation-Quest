@@ -259,6 +259,7 @@ end
 ---@param client TcpServer.client
 ---@return cURL.ClientRequest
 function cURL.clientRequest.fromTCPClient(client)
+	---@type cURL.ClientRequest
 	local object = cURL.clientRequest.new()
 
 	-- request Type
@@ -278,9 +279,9 @@ function cURL.clientRequest.fromTCPClient(client)
 	object.httpVersion = tempStringParser.toEnd()
 
 	-- headers
-
+	local line, closed
 	repeat
-		local line, closed = client:receive()
+		line, closed = client:receive()
 
 		assert(not closed)
 
@@ -291,7 +292,14 @@ function cURL.clientRequest.fromTCPClient(client)
 			
 			object.headers[index] = tempStringParser.toEnd()
 		end
-	until line == ''
+	until line == '' or closed
+
+	-- body
+	while not closed do
+		line, closed = client:receive()
+		
+		object.body = object.body .. line
+	end
 
 	return object
 end
