@@ -306,6 +306,7 @@ function cURL.clientRequest.fromTCPClient(client)
 
 	-- body
 	print(closed, Static.table.toString(object))
+	--[[
 	while not closed do
 		line, closed = client:receive()
 		
@@ -313,7 +314,7 @@ function cURL.clientRequest.fromTCPClient(client)
 
 		object.body = object.body .. line
 	end
-
+--]]
 	return object
 end
 
