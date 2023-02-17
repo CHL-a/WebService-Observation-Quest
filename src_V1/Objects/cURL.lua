@@ -259,6 +259,19 @@ end
 ---@param client TcpServer.client
 ---@return cURL.ClientRequest
 function cURL.clientRequest.fromTCPClient(client)
+	print'test'
+	repeat
+		local l,c = client:receive()
+
+		print(l)
+	until c
+	print'END'
+
+
+
+
+	error('is testing')
+
 	---@type cURL.ClientRequest
 	local object = cURL.clientRequest.new()
 
