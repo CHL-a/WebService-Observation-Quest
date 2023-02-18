@@ -20,6 +20,7 @@
 ---@field requestType string
 ---@field headers Headers
 ---@field httpVersion string
+---@field body string?
 
 ---@class cURL.ServerResponse 
 ---@field body string @bodyContent
@@ -301,10 +302,8 @@ function cURL.clientRequest.fromTCPClient(client)
 	until line == '' or closed
 
 	-- body
-	print(closed, Static.table.toString(object))
-
 	if object.headers['Content-Length'] then
-		print('111', client:receive(tonumber(object.headers['Content-Length'])))
+		object.body = client:receive(tonumber(object.headers['Content-Length']))
 	end
 	--[[
 	while not closed do
