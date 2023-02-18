@@ -27,7 +27,7 @@ end) -- * returned the same object,
 end)
 -- the bar page
 .onRequest('/bar', 'POST', function (client, req, res)
-	print(Static.table.toString(req))
+	print('got bar post',Static.table.toString(req))
 
 	res.success = true
 	res.statusCode = 200

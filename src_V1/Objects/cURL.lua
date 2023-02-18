@@ -270,15 +270,10 @@ function cURL.clientRequest.fromTCPClient(client)
 
 	assert(not tempA and temp)
 
-	local temp = tempStringParser.reset(temp)
-		.popUntil' '
+	local temp = tempStringParser.reset(temp).popUntil' '
 	object.requestType = assert(temp)
 
-
-
-
 	-- web page
-
 	temp = tempStringParser.popUntil' '
 	object.webPage = assert(temp)
 
